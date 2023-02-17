@@ -24,11 +24,3 @@ Resources:
         TopicConfigurations:
           - Topic: !Ref Topic
             Event: s3:ObjectCreated:*
-  Topic:
-      Type: AWS::SNS::Topic
-      Properties:
-        DisplayName: !Join ["-", [!Ref AWS::StackName, "topic"]]
-        TopicName: !Join ["-", [!Ref AWS::StackName, "topic"]]
-        Subscription:
-          - Protocol: email
-            Endpoint: !Ref Email
