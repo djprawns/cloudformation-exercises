@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: CloudFormation example template from Polynique
+Parameters:
+  Email:
+    Type: String
+    Default: pranavsharma.sre@gmail.com
+    Description: Email to receive S3 object created notification
+  BucketName:
+    Type: String
+    Default: bucket
+    Description: Unique S3 bucket name
+Resources:
+  Bucket:
+    Type: AWS::S3::Bucket
+    DependsOn:
+      - SNSTopicPolicy
+    Properties:
+      BucketName: !Join ["-", [!Ref AWS::StackName, !Ref BucketName]]
+      AccessControl: Private
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: True
+        BlockPublicPolicy: True
+        IgnorePublicAcls: True
+        RestrictPublicBuckets: True
+      NotificationConfiguration:
+        TopicConfigurations:
+          - Topic: !Ref Topic
+            Event: s3:ObjectCreated:*
+  Topic:
+      Type: AWS::SNS::Topic
+      Properties:
+        DisplayName: !Join ["-", [!Ref AWS::StackName, "topic"]]
+        TopicName: !Join ["-", [!Ref AWS::StackName, "topic"]]
+        Subscription:
+          - Protocol: email
+            Endpoint: !Ref Email
