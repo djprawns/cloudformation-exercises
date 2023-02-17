@@ -20,7 +20,3 @@ Resources:
         BlockPublicPolicy: True
         IgnorePublicAcls: True
         RestrictPublicBuckets: True
-      NotificationConfiguration:
-        TopicConfigurations:
-          - Topic: !Ref Topic
-            Event: s3:ObjectCreated:*
