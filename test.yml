@@ -7,7 +7,7 @@ Parameters:
     Description: Email to receive S3 object created notification
   BucketName:
     Type: String
-    Default: pranav
+    Default: pranavbucket
     Description: Unique S3 bucket name
 Resources:
   Bucket:
