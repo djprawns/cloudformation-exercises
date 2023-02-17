@@ -13,7 +13,7 @@ Resources:
   Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Join ["-", [!Ref AWS::StackName, !Ref BucketName]]
+      BucketName: !Ref BucketName
       AccessControl: Private
       PublicAccessBlockConfiguration:
         BlockPublicAcls: True
