@@ -10,20 +10,6 @@
     "Resources": {
         "S3Bucket": {
             "Type": "AWS::S3::Bucket"
-        },
-        "MySNSTopic": {
-            "Type": "AWS::SNS::Topic",
-            "Properties": {
-                "Subscription": [
-                    {
-                        "Endpoint": "pranavsharma.sre@gmail.com",
-                        "Protocol": "email"
-                    }
-                ],
-                "TopicName": {
-                    "Ref": "TopicName"
-                }
-            }
         }
     },
     "Outputs": {
@@ -32,12 +18,6 @@
                 "Ref": "S3Bucket"
             },
             "Description": "Name of the sample Amazon S3 bucket."
-        },
-        "MyTopicArn": {
-            "Description": "Arn of Created SNS Topic",
-            "Value": {
-                "Ref": "MySNSTopic"
-            }
         }
     }
 }
