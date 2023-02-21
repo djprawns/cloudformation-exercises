@@ -49,8 +49,6 @@ Resources:
         TopicConfigurations:
           - Topic: !Ref Topic
             Event: s3:ObjectCreated:*
-  MySqsQueue:
-    Type: AWS::SQS::Queue
   Topic:
     Type: AWS::SNS::Topic
     Properties:
@@ -83,28 +81,6 @@ Resources:
                   ]
       Topics:
         - !Ref Topic
-  SnsToQueuePolicy:
-    Type: AWS::SQS::QueuePolicy
-    Properties: 
-      Queues:
-        - !Ref MySqsQueue
-      PolicyDocument: 
-        Version: '2012-10-17'
-        Statement:
-          - Sid: allow-sns-messages
-            Effect: Allow
-            Principal: '*'
-            Resource: !GetAtt MySqsQueue.Arn
-            Action: SQS:SendMessage,
-            Condition:
-              ArnEquals:
-                aws:SourceArn: !Ref Topic
-  SnsSubscription:
-    Type: AWS::SNS::Subscription
-    Properties:
-      Protocol: sqs
-      Endpoint: !GetAtt Queue.Arn
-      TopicArn: !Ref Topic
   LambdaFunction:
     Type: 'AWS::Lambda::Function'
     Properties:
@@ -113,30 +89,9 @@ Resources:
       Role: !GetAtt LambdaFunctionRole.Arn
       Code:
         ZipFile: |
-          var mysql = require('mysql');
-
-          var connection = mysql.createConnection({
-            host     : 'earth-daily-db.cltzlk5ou6cy.us-west-2.rds.amazonaws.com',
-            user     : 'admin',
-            password : 'earthdaily'
-          });
-
-          connection.connect();
-
-          exports.handler = (event, context) => {
-            try {
-              connection.query("SELECT * FROM table", function(err, rows, fields) {
-                  console.log('rows: ' + rows);
-                  context.succeed('Success');
-                });
-              };
-            }
-
-          connection.query("SELECT * FROM table", function(err, rows, fields) {
-            console.log('rows: ' + rows);
-            context.succeed('Success');
-            });
-          };
+          exports.handler = async (snsEvent) => {
+            console.log(JSON.stringify(snsEvent));
+          }
   LambdaFunctionRole:
     Type: AWS::IAM::Role
     Properties:
