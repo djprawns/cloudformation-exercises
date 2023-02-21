@@ -83,24 +83,22 @@ Resources:
                   ]
       Topics:
         - !Ref Topic
-  SnsToSqsPolicy:
+  SnsToQueuePolicy:
     Type: AWS::SQS::QueuePolicy
-    Properties:
-      PolicyDocument:
-        Version: "2012-10-17"
+    Properties: 
+      Queues:
+        - !Ref MySqsQueue
+      PolicyDocument: 
+        Version: '2012-10-17'
         Statement:
-          - Sid: "Allow SNS publish to SQS"
+          - Sid: allow-sns-messages
             Effect: Allow
-            Principal: 
-              Service: "sns.amazonaws.com"
+            Principal: '*'
             Resource: !GetAtt MySqsQueue.Arn
-            Action: SQS:SendMessage
+            Action: SQS:SendMessage,
             Condition:
               ArnEquals:
                 aws:SourceArn: !Ref Topic
-      Queues:
-        - Ref: MySqsQueue
-
   SnsSubscription:
     Type: AWS::SNS::Subscription
     Properties:
