@@ -115,7 +115,7 @@ Resources:
             - logs:PutLogEvents
             Resource: "*"
 
-  # Allows SNS to call our Lambda function.
+  # Allows SNS to call our Lambda function. as
   LambdaFunctionSNSPermission:
     Type: AWS::Lambda::Permission
     Properties:
