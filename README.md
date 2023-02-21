@@ -13,3 +13,6 @@ This is for the assignment for EarthDaily. The following are the steps to recrea
 6) at this point, a mail shall be recieved in your mailbox. Confirm the subscription (be sure to see the spam / promotions sections, they arrive there sometimes).
 7) Go to the S3 bucket and upload an object, you shall recieve a mail with the payload.
 8) Further explore the cloudwatch events where events shall be recieved as a trail.
+
+
+VIDEO LINK OF THE ENTIRE DEMONSTRATION - https://youtu.be/tJcykiCWezQ
