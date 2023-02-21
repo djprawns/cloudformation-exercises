@@ -21,9 +21,8 @@
 #         IgnorePublicAcls: True
 #         RestrictPublicBuckets: True
 
-AWSTemplateFormatVersion: '2010-09-09'
-Transform: 'AWS::Serverless-2016-10-31'
-Description: CloudFormation example template from Polynique
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Earthdaily CF template
 Parameters:
   Email:
     Type: String
@@ -34,14 +33,6 @@ Parameters:
     Default: pranavs-bucket
     Description: Unique S3 bucket name
 Resources:
-  Topic:
-    Type: AWS::SNS::Topic
-    Properties:
-      DisplayName: !Join ["-", [!Ref AWS::StackName, "topic"]]
-      TopicName: !Join ["-", [!Ref AWS::StackName, "topic"]]
-      Subscription:
-        - Protocol: email
-          Endpoint: !Ref Email
   Bucket:
     Type: AWS::S3::Bucket
     DependsOn:
@@ -58,6 +49,36 @@ Resources:
         TopicConfigurations:
           - Topic: !Ref Topic
             Event: s3:ObjectCreated:*
+  Topic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: !Join ["-", [!Ref AWS::StackName, "topic"]]
+      TopicName: !Join ["-", [!Ref AWS::StackName, "topic"]]
+      Subscription:
+        - Protocol: email
+          Endpoint: !Ref Email
+  SNSTopicPolicy:
+    Type: AWS::SNS::TopicPolicy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: s3.amazonaws.com
+            Action: sns:Publish
+            Resource: !Ref Topic
+            Condition:
+              ArnLike:
+                aws:SourceArn:
+                  !Join [
+                    "",
+                    [
+                      "arn:aws:s3:::",
+                      !Join ["-", [!Ref AWS::StackName, !Ref BucketName]],
+                    ],
+                  ]
+      Topics:
+        - !Ref Topic
   LambdaFunction:
     Type: 'AWS::Lambda::Function'
     Properties:
@@ -94,7 +115,7 @@ Resources:
             - logs:PutLogEvents
             Resource: "*"
 
-  # Allows SNS to call our Lambda function.
+  # Allows SNS to call our Lambda function. as
   LambdaFunctionSNSPermission:
     Type: AWS::Lambda::Permission
     Properties:
@@ -111,4 +132,4 @@ Resources:
           - ':'
           - !Ref AWS::AccountId
           - ':'
-          - !Ref Topic
+          - !Join ["-", [!Ref AWS::StackName, "topic"]]
