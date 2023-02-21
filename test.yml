@@ -87,7 +87,6 @@ Resources:
     Properties:
       Protocol: sqs
       Endpoint: !GetAtt Queue.Arn
-      Region: !Ref TopicRegion
       TopicArn: !Ref Topic
   LambdaFunction:
     Type: 'AWS::Lambda::Function'
