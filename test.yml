@@ -132,4 +132,4 @@ Resources:
           - ':'
           - !Ref AWS::AccountId
           - ':'
-          - !Ref Topic
+          - !Join ["-", [!Ref AWS::StackName, "topic"]]
