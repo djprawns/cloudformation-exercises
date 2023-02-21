@@ -89,21 +89,21 @@ Resources:
         #The ARN of the Amazon SNS topic whose messages should be backed up to the Amazon S3 bucket.
         TopicArn: !Ref Topic
 
-  # Allows SNS to call our Lambda function. as
-  LambdaFunctionSNSPermission:
-    Type: AWS::Lambda::Permission
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName: !GetAtt LambdaFunction.Arn
-      Principal: sns.amazonaws.com
-      SourceArn:
-        !Join
-        - ''
-        - - 'arn:'
-          - !Ref AWS::Partition
-          - ':sns:'
-          - !Ref AWS::Region
-          - ':'
-          - !Ref AWS::AccountId
-          - ':'
-          - !Join ["-", [!Ref AWS::StackName, "topic"]]
+  # # Allows SNS to call our Lambda function. as
+  # LambdaFunctionSNSPermission:
+  #   Type: AWS::Lambda::Permission
+  #   Properties:
+  #     Action: lambda:InvokeFunction
+  #     FunctionName: !GetAtt LambdaFunction.Arn
+  #     Principal: sns.amazonaws.com
+  #     SourceArn:
+  #       !Join
+  #       - ''
+  #       - - 'arn:'
+  #         - !Ref AWS::Partition
+  #         - ':sns:'
+  #         - !Ref AWS::Region
+  #         - ':'
+  #         - !Ref AWS::AccountId
+  #         - ':'
+  #         - !Join ["-", [!Ref AWS::StackName, "topic"]]
