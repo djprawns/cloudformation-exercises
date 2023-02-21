@@ -1,4 +1,4 @@
-# cloudformation-exercises
+# cloudformation-exercises - EARTHDAILY
 
 This is for the assignment for EarthDaily. The following are the steps to recreate the Infrastructure.
 1) Go to AWS Console and login
