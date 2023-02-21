@@ -21,7 +21,8 @@
 #         IgnorePublicAcls: True
 #         RestrictPublicBuckets: True
 
-AWSTemplateFormatVersion: "2010-09-09"
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
 Description: CloudFormation example template from Polynique
 Parameters:
   Email:
