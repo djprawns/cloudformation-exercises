@@ -11,5 +11,5 @@ This is for the assignment for EarthDaily. The following are the steps to recrea
   5.3) make sure you change the email with the target mail id of your choice.
   5.4) Make sure the CAPABILITY IAM is selected in the deploy stage 
 6) at this point, a mail shall be recieved in your mailbox. Confirm the subscription (be sure to see the spam / promotions sections, they arrive there sometimes).
-7) Go to the S3 bucket and drop a mail, you shall recieve a mail with the payload.
+7) Go to the S3 bucket and upload an object, you shall recieve a mail with the payload.
 8) Further explore the cloudwatch events where events shall be recieved as a trail.
