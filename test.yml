@@ -49,6 +49,8 @@ Resources:
         TopicConfigurations:
           - Topic: !Ref Topic
             Event: s3:ObjectCreated:*
+  MySqsQueue:
+    Type: AWS::SQS::Queue
   Topic:
     Type: AWS::SNS::Topic
     Properties:
@@ -57,6 +59,8 @@ Resources:
       Subscription:
         - Protocol: email
           Endpoint: !Ref Email
+        - Protocol: sqs
+          Endpoint: !GetAtt MySqsQueue.Arn
   SNSTopicPolicy:
     Type: AWS::SNS::TopicPolicy
     Properties:
@@ -79,8 +83,23 @@ Resources:
                   ]
       Topics:
         - !Ref Topic
-  Queue:
-    Type: AWS::SQS::Queue
+    SnsToSqsPolicy:
+      Type: AWS::SQS::QueuePolicy
+      Properties:
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Sid: "Allow SNS publish to SQS"
+              Effect: Allow
+              Principal: 
+                Service: "sns.amazonaws.com"
+              Resource: !GetAtt MySqsQueue.Arn
+              Action: SQS:SendMessage
+              Condition:
+                ArnEquals:
+                  aws:SourceArn: !Ref Topic
+        Queues:
+          - Ref: MySqsQueue
 
   SnsSubscription:
     Type: AWS::SNS::Subscription
