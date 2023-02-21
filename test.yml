@@ -34,6 +34,14 @@ Parameters:
     Default: pranavs-bucket
     Description: Unique S3 bucket name
 Resources:
+  Topic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: !Join ["-", [!Ref AWS::StackName, "topic"]]
+      TopicName: !Join ["-", [!Ref AWS::StackName, "topic"]]
+      Subscription:
+        - Protocol: email
+          Endpoint: !Ref Email
   Bucket:
     Type: AWS::S3::Bucket
     DependsOn:
@@ -50,14 +58,6 @@ Resources:
         TopicConfigurations:
           - Topic: !Ref Topic
             Event: s3:ObjectCreated:*
-  Topic:
-    Type: AWS::SNS::Topic
-    Properties:
-      DisplayName: !Join ["-", [!Ref AWS::StackName, "topic"]]
-      TopicName: !Join ["-", [!Ref AWS::StackName, "topic"]]
-      Subscription:
-        - Protocol: email
-          Endpoint: !Ref Email
   LambdaFunction:
     Type: 'AWS::Lambda::Function'
     Properties:
