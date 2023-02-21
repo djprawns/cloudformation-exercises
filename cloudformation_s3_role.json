@@ -1,0 +1,32 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "organizations:ListPoliciesForTarget",
+                "sns:*",
+                "organizations:ListRoots",
+                "organizations:ListTargetsForPolicy",
+                "sns:GetTopicAttributes",
+                "s3:*",
+                "cloudformation:*",
+                "organizations:DescribeAccount",
+                "sqs:*",
+                "s3-object-lambda:*",
+                "organizations:DescribePolicy",
+                "organizations:ListChildren",
+                "organizations:ListPolicies",
+                "sns:List*",
+                "iam:*",
+                "organizations:DescribeOrganization",
+                "serverlessrepo:*",
+                "lambda:*",
+                "organizations:DescribeOrganizationalUnit",
+                "organizations:ListParents"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
