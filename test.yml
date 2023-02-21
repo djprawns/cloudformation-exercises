@@ -79,6 +79,16 @@ Resources:
                   ]
       Topics:
         - !Ref Topic
+  Queue:
+    Type: AWS::SQS::Queue
+
+  SnsSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Protocol: sqs
+      Endpoint: !GetAtt Queue.Arn
+      Region: !Ref TopicRegion
+      TopicArn: !Ref Topic
   LambdaFunction:
     Type: 'AWS::Lambda::Function'
     Properties:
@@ -87,9 +97,30 @@ Resources:
       Role: !GetAtt LambdaFunctionRole.Arn
       Code:
         ZipFile: |
-          exports.handler = async (snsEvent) => {
-            console.log(JSON.stringify(snsEvent));
-          }
+          var mysql = require('mysql');
+
+          var connection = mysql.createConnection({
+            host     : 'earth-daily-db.cltzlk5ou6cy.us-west-2.rds.amazonaws.com',
+            user     : 'admin',
+            password : 'earthdaily'
+          });
+
+          connection.connect();
+
+          exports.handler = (event, context) => {
+            try {
+              connection.query("SELECT * FROM table", function(err, rows, fields) {
+                  console.log('rows: ' + rows);
+                  context.succeed('Success');
+                });
+              };
+            }
+
+          connection.query("SELECT * FROM table", function(err, rows, fields) {
+            console.log('rows: ' + rows);
+            context.succeed('Success');
+            });
+          };
   LambdaFunctionRole:
     Type: AWS::IAM::Role
     Properties:
