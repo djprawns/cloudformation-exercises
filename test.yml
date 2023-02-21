@@ -57,8 +57,6 @@ Resources:
       Subscription:
         - Protocol: email
           Endpoint: !Ref Email
-        - Protocol: sqs
-          Endpoint: !GetAtt MySqsQueue.Arn
   SNSTopicPolicy:
     Type: AWS::SNS::TopicPolicy
     Properties:
