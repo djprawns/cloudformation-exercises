@@ -3,7 +3,7 @@
 This is for the assignment for EarthDaily. The following are the steps to recreate the Infrastructure.
 1) Go to AWS Console and login
 2) Go to AWS IAM and start creating roles and policies.
-3) Create the first role name it codepipeline_demo_service_role.json. its contents should be as follows - https://github.com/djprawns/cloudformation-exercises/blob/earth-daily/codepipeline_demo_service_role.json. Select EC2 as the service and change the trust policy to codepipelin.amazon.com. 
+3) Create the first role name it codepipeline_demo_service_role.json. its contents should be as follows - https://github.com/djprawns/cloudformation-exercises/blob/earth-daily/codepipeline_demo_service_role.json. Select EC2 as the service and change the trust policy to codepipeline.amazon.com. 
 4) Create the second role name it cloudformation_s3_role.json. its contents should be as follows - https://github.com/djprawns/cloudformation-exercises/blob/earth-daily/cloudformation_s3_role.json
 5) Start configuring the CI / CD for the infrastructure which shall be sourced from the Cloudformation YAML file at https://github.com/djprawns/cloudformation-exercises/blob/earth-daily/test.yml.
   5.1) Go to codepipeline and configure all the build steps. This can be expanded on in the F2F demonstration.
